@@ -141,7 +141,7 @@ if st.session_state.game_state['game_completed']:
                 </div>
                 <div class="card-content">
                     <div class="card-message">
-                        First of all, I'm sorry that we can't spend Valentines day together. I would've loved to spend the day together,
+                        I'm sorry that we can't spend Valentines day together. I would've loved to spend the day together,
                         even if we just got to sit inside and hug because it will be raining. I miss you sooooooooooo much. Words cannot
                         describe how much I miss you. I miss you more than you'll ever miss me. Thanks for sticking with me for the past 598 days.
                         Every time we hang out together, I think about how lucky I am for you to even be in my presence. I love to listen to you, 
