@@ -18,12 +18,16 @@ st.markdown("""
     }
     
     .valentine-card {
-        background-color: #ffe6e6;
+        position: relative;
+        background: linear-gradient(45deg, #ffe6e6, #ffb3b3);
         border-radius: 10px;
         padding: 20px;
-        margin: 20px 0;
         border: 2px solid #ff6b6b;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transform-origin: center;
+        transition: all 0.3s ease;
     }
+    
     .chat-message {
         padding: 10px;
         border-radius: 10px;
@@ -37,6 +41,44 @@ st.markdown("""
     .bot-message {
         background-color: #ffe6e6;
         margin-right: 20%;
+    }
+    
+    .card-container {
+        perspective: 1000px;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+    
+    .valentine-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    
+    .card-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    
+    .card-header {
+        color: #ff4b6b;
+        font-family: 'Brush Script MT', cursive;
+        font-size: 2em;
+        margin-bottom: 15px;
+    }
+    
+    .card-message {
+        font-family: 'Georgia', serif;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    .signature {
+        font-family: 'Brush Script MT', cursive;
+        font-size: 1.5em;
+        color: #ff4b6b;
+        margin-top: 20px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -67,9 +109,9 @@ if not st.session_state.game_state['game_completed']:
     
     # Question 1
     if not st.session_state.game_state['q1_answered']:
-        q1_answer = st.text_input("who loves the other person more?").lower().strip()
+        q1_answer = st.text_input("does evan love allie more than allie loves evan?").lower().strip()
         if q1_answer:
-            if q1_answer == "evan":
+            if q1_answer == "yes":
                 st.success("correct! that's pretty obvious")
                 st.session_state.game_state['q1_answered'] = True
                 st.rerun()
@@ -78,7 +120,7 @@ if not st.session_state.game_state['game_completed']:
     
     # Question 2
     elif not st.session_state.game_state['q2_answered']:
-        q2_answer = st.text_input("who is Evan's favorite person? 🥰").lower().strip()
+        q2_answer = st.text_input("who is evan's favorite person?").lower().strip()
         if q2_answer:
             if q2_answer == "allie":
                 st.success("wow that was easy")
@@ -88,20 +130,38 @@ if not st.session_state.game_state['game_completed']:
             else:
                 st.error("not quite! this is an easy question")
 
-# Only show Valentine's card and chat after game completion
+# Valentine's Card section
 if st.session_state.game_state['game_completed']:
-    # Valentine's Card (Expandable)
-    with st.expander("💌 click me first 💌"):
+    with st.expander("💌 click me first 💌", expanded=False):
         st.markdown("""
-        <div class="valentine-card">
-            <h2 style='text-align: center;'>My Dearest Allie ❤️</h2>
-            <p style='text-align: center;'>
-                Every moment with you is a gift that I cherish deeply.<br>
-                You make my world brighter just by being in it.<br>
-                I love you more than words can express.<br><br>
-                With all my love,<br>
-                Evan
-            </p>
+        <div class="card-container">
+            <div class="valentine-card">
+                <div class="card-header">
+                    Hi Allie,
+                </div>
+                <div class="card-content">
+                    <div class="card-message">
+                        First of all, I'm sorry that we can't spend Valentines day together. I would've loved to spend the day together,
+                        even if we just got to sit inside and hug because it will be raining. I miss you sooooooooooo much. Words cannot
+                        describe how much I miss you. I miss you more than you'll ever miss me. Thanks for sticking with me for the past 598 days.
+                        Every time we hang out together, I think about how lucky I am for you to even be in my presence. I love to listen to you, 
+                        to hear you laugh, and to look at you of course. You make me smile so much. You're like the barbecue sauce to my chicken nuggets
+                        (I know how much you like chicken nuggets and bbq sauce). There is not one thing that I don't love about you. You are so funny
+                        too. I love how you never have a set opinion on food lol. I also love how cute you look with your glasses. I don't think I could
+                        fit all the things I love about you on this page. You are so special to me I don't know how I'm living without you rn because I think about you all day. Anyways, it's
+                        still nice how we call every night before bed. I always look forward to talking to you even if we're both super tired. 
+                        I love you sooooooooooo much. Obviously more than you'll ever love me, but I think I can live with that. You're the best gf I could've ever asked for.<br><br>
+                        I know you were upset that I didn't ask you to be my valentine yet, but it's literally because I was in the process of 
+                        making this!! I couldn't spoil my secret, so I hope the sacrifice of making you mad was worth it. You can chat with a virtual
+                        version of me below, although he's a little cheesy. You can come back to this and chat with him if you ever get bored of the real life me.
+                        I love you so much Allie.
+                    </div>
+                    <div class="signature">
+                        Love,<br>
+                        Evan
+                    </div>
+                </div>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -120,14 +180,14 @@ if st.session_state.game_state['game_completed']:
             """, unsafe_allow_html=True)
 
     # Chat input
-    user_input = st.chat_input("try typing here")
+    user_input = st.chat_input("chat with virtual me")
 
     if user_input:
         # Add user message to chat
         st.session_state.messages.append({"role": "user", "content": user_input})
         
         # Check for yes response and update state
-        if any(word in user_input.lower() for word in ['yes', 'sure', 'okay', 'of course', 'definitely']):
+        if any(word in user_input.lower() for word in ['yes', 'yeah', 'sure', 'okay', 'of course', 'definitely']):
             st.session_state.has_said_yes = True
             st.session_state.bot.has_said_yes = True
         
@@ -138,4 +198,4 @@ if st.session_state.game_state['game_completed']:
         st.session_state.messages.append({"role": "assistant", "content": bot_response})
         
         # Rerun to update the chat display
-        st.rerun() 
+        st.rerun()
