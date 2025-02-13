@@ -4,7 +4,7 @@ import os
 
 # Page configuration
 st.set_page_config(
-    page_title="Will You Be My Valentine?",
+    page_title="hi allie",
     page_icon="💝",
     layout="centered"
 )
